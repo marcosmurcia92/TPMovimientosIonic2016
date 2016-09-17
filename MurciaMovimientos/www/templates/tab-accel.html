@@ -1,0 +1,59 @@
+<ion-view view-title="Accelerate">
+  <ion-content id="fhm_page">
+    <div class="fhm_container">
+        <div class="fhm_row">
+          <div class="fhm_item" align="center">
+            <strong>X: {{measurements.x | number:2}}</strong>
+            <strong>Y: {{measurements.y | number:2}}</strong>
+            <strong>Z: {{measurements.z | number:2}}</strong>
+          </div>
+          <div class="fhm_item" align="center">
+            <img class="{{parClass}}" src="img/parado.png"><br>
+            <button class="button button-record icon ion-record"></button>
+          </div>
+          <div class="fhm_item" align="center">
+            
+          </div>
+        </div>
+        <div class="fhm_row">
+          <div class="fhm_item" align="center">
+            <img class="{{izqClass}}" src="img/izquierda.png"><br>
+            <button class="button button-record icon ion-record"></button>
+          </div>
+          <div class="fhm_item" align="center">
+            <img class="{{barClass}}" src="img/acostado.png"><br>
+             <button class="button button-record icon ion-record"></button>
+          </div>
+          <div class="fhm_item" align="center">
+            <img class="{{derClass}}" src="img/derecha.png"><br>
+            <button class="button button-record icon ion-record"></button>
+          </div>
+        </div>
+        <div class="fhm_row">
+          <div class="fhm_item" align="center">
+            
+          </div>
+          <div class="fhm_item" align="center">
+            <img class="{{babClass}}" src="img/phoneBack.png"><br>
+             <button class="button button-record icon ion-record"></button>
+          </div>
+          <div class="fhm_item" align="center">
+            
+          </div>
+        </div>
+    </div>
+
+    <!-- <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
+        <img ng-src="{{chat.face}}">
+        <h2>{{chat.name}}</h2>
+        <p>{{chat.lastText}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>
+      </ion-item>
+    </ion-list> -->
+  </ion-content>
+</ion-view>

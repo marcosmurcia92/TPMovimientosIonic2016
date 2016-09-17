@@ -1,1 +1,57 @@
 /* Empty. Add your own CSS if you like */
+#fhm_page .scroll{
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  bottom:0;
+}
+
+.fhm_container {
+  position:absolute;
+  top:0px;
+  right:0;
+  left:0;
+  bottom:0;
+}
+
+.fhm_row {
+  /* position: absolute; */
+  height: 30%;
+  left:0;
+  right:0;
+  background-color:#FFFFFF;
+  clear:both;
+}
+.fhm_item {
+  height: 100%;
+  width:32.95%;
+  background-color: #FFFFFF;
+  border: 1px solid #000000;
+  float:left;
+}
+
+.fhm_control {
+  margin: 0 auto;
+}
+
+.fhm_img{
+	margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+	position: relative;
+	display: block;
+	max-width: 50%;
+	max-height: 50%;
+	background-color: #999;
+}
+.fhm_imgOn{
+	margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+	position: relative;
+	display: block;
+	max-width: 50%;
+	max-height: 50%;
+	background-color: #3399ff;
+}

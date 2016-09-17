@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,UsuarioMovimiento) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,6 +20,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    document.addEventListener("pause", function(){
+      if(UsuarioMovimiento.getName() != ""){
+        if(UsuarioMovimiento.getWatch() != null){
+          UsuarioMovimiento.getWatch().clearWatch();
+        }
+      }
+    }, false);
   });
 })
 
@@ -31,40 +39,34 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+
+
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    controller: 'AppCtrl'
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.author', {
+    url: '/author',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-author': {
+        templateUrl: 'templates/tab-author.html',
+        controller: 'AuthorCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.accel', {
+      url: '/accelerate',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-accel': {
+          templateUrl: 'templates/tab-accel.html',
+          controller: 'AccelCtrl'
         }
       }
     })
@@ -80,6 +82,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','n
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/author');
 
 });
