@@ -61,6 +61,23 @@ $ionicPlatform.registerBackButtonAction(function (event) {
   //
   //$scope.$on('$ionicView.enter', function(e) {
   //});
+    
+    $cordovaFile.checkDir(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName())
+      .then(function (success) {
+        // success
+          console.log("YA EXISTE LA CARPETA DEL USUARIO");
+      }, function (error) {
+        // error
+          console.log("No se encuentra la carpeta del usuario. Creando...");
+          $cordovaFile.createDir(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName(), true)
+            .then(function (success) {
+              // success
+                console.log("CARPETA CREADA CON EXITO");
+            }, function (error) {
+              // error
+                console.info("ERROR CREANDO CARPETA" , error);
+            });
+      });
 
     var parSrc = cordova.file.externalApplicationStorageDirectory+"files/"+UsuarioMovimiento.getName()+"/parSound.wav";
     var babSrc = cordova.file.externalApplicationStorageDirectory+"files/"+UsuarioMovimiento.getName()+"/babSound.wav";
@@ -87,6 +104,7 @@ $ionicPlatform.registerBackButtonAction(function (event) {
     }
 
     // Watcher object
+    $scope.DeviceState = "";
     $scope.watch = null;
 
     $scope.derClass = "fhm_img";
@@ -102,45 +120,45 @@ $ionicPlatform.registerBackButtonAction(function (event) {
     $scope.GrabarSonido = function(id){
       switch(id) {
           case "parado":
-              $timeout(function () {
-                  parMedia.startRecording();
+              //$timeout(function () {
+                  parMedia.startRecord();
                   $timeout(function(){
-                      parMedia.stopRecording();
-                  },1000);
-              }, 500);
+                      parMedia.stopRecord();
+                  },1500);
+              //}, 500);
               break;
           case "bocaarriba":
-              $timeout(function () {
-                  barMedia.startRecording();
+             //$timeout(function () {
+                  barMedia.startRecord();
                   $timeout(function(){
-                      barMedia.stopRecording();
-                  },1000);
-              }, 500);
+                      barMedia.stopRecord();
+                  },1500);
+              //}, 500);
               break;
           case "bocaabajo":
-              $timeout(function () {
-                  babMedia.startRecording();
+             // $timeout(function () {
+                  babMedia.startRecord();
                   $timeout(function(){
-                      babMedia.stopRecording();
-                  },1000);
-              }, 500);
+                      babMedia.stopRecord();
+                  },1500);
+              //}, 500);
 
               break;
           case "derecha":
-              $timeout(function () {
-                  derMedia.startRecording();
+              //$timeout(function () {
+                  derMedia.startRecord();
                   $timeout(function(){
-                      derMedia.stopRecording();
-                  },1000);
-              }, 500);
+                      derMedia.stopRecord();
+                  },1500);
+             // }, 500);
               break;
           case "izquierda":
-              $timeout(function () {
-                  izqMedia.startRecording();
+              //$timeout(function () {
+                  izqMedia.startRecord();
                   $timeout(function(){
-                      izqMedia.stopRecording();
-                  },1000);
-              }, 500);
+                      izqMedia.stopRecord();
+                  },1500);
+              //}, 500);
               break;
       }
     }
@@ -170,6 +188,10 @@ $ionicPlatform.registerBackButtonAction(function (event) {
               $scope.parClass = "fhm_img";
               $scope.barClass = "fhm_img";
               $scope.babClass = "fhm_imgOn";
+              if($scope.DeviceState != "BocaAbajo"){
+                babMedia.play();
+              }
+              $scope.DeviceState = "BocaAbajo";
               $scope.measurements.z = -1;
             }else{
               //PARADO
@@ -178,37 +200,59 @@ $ionicPlatform.registerBackButtonAction(function (event) {
               $scope.parClass = "fhm_imgOn";
               $scope.barClass = "fhm_img";
               $scope.babClass = "fhm_img";
+              if($scope.DeviceState != "Parado"){
+                parMedia.play();
+              }
+              $scope.DeviceState = "Parado";
               $scope.measurements.z = 0;
             }
 
             if(result.x > 2){
+              if($scope.measurements.z == 1){
+                $scope.derClass = "fhm_img";
+                $scope.izqClass = "fhm_imgOn";
+                $scope.parClass = "fhm_img";
+                $scope.barClass = "fhm_img";
+                $scope.babClass = "fhm_img";
+                if($scope.DeviceState != "Izquierda"){
+                  izqMedia.play();
+                }
+                $scope.DeviceState = "Izquierda";
+              }
               $scope.measurements.x = 1;
             }else if(result.x < -2){
+              if($scope.measurements.z == 1){
+                $scope.derClass = "fhm_imgOn";
+                $scope.izqClass = "fhm_img";
+                $scope.parClass = "fhm_img";
+                $scope.barClass = "fhm_img";
+                $scope.babClass = "fhm_img";
+                if($scope.DeviceState != "Derecha"){
+                  derMedia.play();
+                }
+                $scope.DeviceState = "Derecha";
+              }
               $scope.measurements.x = -1;
             }else{
+              if($scope.measurements.z == 1){
+                $scope.derClass = "fhm_img";
+                $scope.izqClass = "fhm_img";
+                $scope.parClass = "fhm_img";
+                $scope.barClass = "fhm_imgOn";
+                $scope.babClass = "fhm_img";
+                if($scope.DeviceState != "BocaArriba"){
+                  barMedia.play();
+                }
+                $scope.DeviceState = "BocaArriba";
+              }
               $scope.measurements.x = 0;
             }
 
             if(result.y > 2){
-              $scope.derClass = "fhm_img";
-              $scope.izqClass = "fhm_imgOn";
-              $scope.parClass = "fhm_img";
-              $scope.barClass = "fhm_img";
-              $scope.babClass = "fhm_img";
               $scope.measurements.y = 1;
             }else if(result.y < -2){
-              $scope.derClass = "fhm_imgOn";
-              $scope.izqClass = "fhm_img";
-              $scope.parClass = "fhm_img";
-              $scope.barClass = "fhm_img";
-              $scope.babClass = "fhm_img";
               $scope.measurements.y = -1;
             }else{
-              $scope.derClass = "fhm_img";
-              $scope.izqClass = "fhm_img";
-              $scope.parClass = "fhm_img";
-              $scope.barClass = "fhm_imgOn";
-              $scope.babClass = "fhm_img";
               $scope.measurements.y = 0;
             }
 
