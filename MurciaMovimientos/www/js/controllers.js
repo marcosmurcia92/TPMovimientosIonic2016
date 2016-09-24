@@ -105,6 +105,7 @@ $ionicPlatform.registerBackButtonAction(function (event) {
 
     // Watcher object
     $scope.DeviceState = "";
+    $scope.recording = false;
     $scope.watch = null;
 
     $scope.derClass = "fhm_img";
@@ -121,43 +122,194 @@ $ionicPlatform.registerBackButtonAction(function (event) {
       switch(id) {
           case "parado":
               //$timeout(function () {
-                  parMedia.startRecord();
-                  $timeout(function(){
-                      parMedia.stopRecord();
-                  },1500);
+                if(!$scope.recording){
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,
+                   "files/"+UsuarioMovimiento.getName()+"/parSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    parMedia.release();
+                    $cordovaFile.removeFile(cordova.file.externalApplicationStorageDirectory,
+                     "files/"+UsuarioMovimiento.getName()+"/parSound.wav")
+                      .then(function (success) {
+                          console.info("SUCCESS REMOVE FILE",success);
+                          parMedia = $cordovaMedia.newMedia(parSrc);
+                          $scope.recording = true;
+                          $scope.stopWatching();
+                          parMedia.startRecord();
+                          $timeout(function(){
+                              $scope.recording = false;
+                              parMedia.stopRecord();
+                              $scope.startWatching();
+                          },1500);
+                      }, function (error) {
+                          console.info("ERROR REMOVE FILE",error);
+                      });
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                    $scope.recording = true;
+                    $scope.stopWatching();
+                    parMedia.startRecord();
+                    $timeout(function(){
+                        parMedia.stopRecord();
+                        $scope.recording = false;
+                        $scope.startWatching();
+                    },1500);
+                  });
+                }
               //}, 500);
               break;
           case "bocaarriba":
              //$timeout(function () {
-                  barMedia.startRecord();
-                  $timeout(function(){
-                      barMedia.stopRecord();
-                  },1500);
+                if(!$scope.recording){
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,
+                   "files/"+UsuarioMovimiento.getName()+"/barSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    barMedia.release();
+                    $cordovaFile.removeFile(cordova.file.externalApplicationStorageDirectory,
+                     "files/"+UsuarioMovimiento.getName()+"/barSound.wav")
+                      .then(function (success) {
+                          console.info("SUCCESS REMOVE FILE",success);
+                          barMedia = $cordovaMedia.newMedia(barSrc);
+                          $scope.recording = true;
+                          $scope.stopWatching();
+                          barMedia.startRecord();
+                          $timeout(function(){
+                              barMedia.stopRecord();
+                              $scope.recording = false;
+                              $scope.startWatching();
+                          },1500);
+                      }, function (error) {
+                          console.info("ERROR REMOVE FILE",error);
+                      });
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                    $scope.recording = true;
+                    $scope.stopWatching();
+                    barMedia.startRecord();
+                    $timeout(function(){
+                        barMedia.stopRecord();
+                        $scope.recording = false;
+                        $scope.startWatching();
+                    },1500);
+                  });
+                }
               //}, 500);
               break;
           case "bocaabajo":
              // $timeout(function () {
-                  babMedia.startRecord();
-                  $timeout(function(){
-                      babMedia.stopRecord();
-                  },1500);
+                if(!$scope.recording){
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,
+                   "files/"+UsuarioMovimiento.getName()+"/babSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    babMedia.release();
+                    $cordovaFile.removeFile(cordova.file.externalApplicationStorageDirectory,
+                     "files/"+UsuarioMovimiento.getName()+"/babSound.wav")
+                      .then(function (success) {
+                          console.info("SUCCESS REMOVE FILE",success);
+                          $scope.recording = true;
+                          $scope.stopWatching();
+                          babMedia.startRecord();
+                          $timeout(function(){
+                              babMedia.stopRecord();
+                              $scope.recording = false;
+                              $scope.startWatching();
+                          },1500);
+                      }, function (error) {
+                          console.info("ERROR REMOVE FILE",error);
+                      });
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                    $scope.recording = true;
+                    $scope.stopWatching();
+                    babMedia.startRecord();
+                    $timeout(function(){
+                        babMedia.stopRecord();
+                        $scope.recording = false;
+                        $scope.startWatching();
+                    },1500);
+                  });
+                }
               //}, 500);
 
               break;
           case "derecha":
               //$timeout(function () {
-                  derMedia.startRecord();
-                  $timeout(function(){
-                      derMedia.stopRecord();
-                  },1500);
+                if(!$scope.recording){
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,
+                   "files/"+UsuarioMovimiento.getName()+"/derSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    derMedia.release();
+                    $cordovaFile.removeFile(cordova.file.externalApplicationStorageDirectory,
+                     "files/"+UsuarioMovimiento.getName()+"/derSound.wav")
+                      .then(function (success) {
+                          console.info("SUCCESS REMOVE FILE",success);
+                          derMedia = $cordovaMedia.newMedia(derSrc);
+                          $scope.recording = true;
+                          $scope.stopWatching();
+                          derMedia.startRecord();
+                          $timeout(function(){
+                              derMedia.stopRecord();
+                              $scope.recording = false;
+                              $scope.startWatching();
+                          },1500);
+                      }, function (error) {
+                          console.info("ERROR REMOVE FILE",error);
+                      });
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                    $scope.recording = true;
+                    $scope.stopWatching();
+                    derMedia.startRecord();
+                    $timeout(function(){
+                        derMedia.stopRecord();
+                        $scope.recording = false;
+                        $scope.startWatching();
+                    },1500);
+                  });
+                }
              // }, 500);
               break;
           case "izquierda":
               //$timeout(function () {
-                  izqMedia.startRecord();
-                  $timeout(function(){
-                      izqMedia.stopRecord();
-                  },1500);
+                if(!$scope.recording){
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory,
+                   "files/"+UsuarioMovimiento.getName()+"/izqSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    izqMedia.release();
+                    $cordovaFile.removeFile(cordova.file.externalApplicationStorageDirectory,
+                     "files/"+UsuarioMovimiento.getName()+"/izqSound.wav")
+                      .then(function (success) {
+                          console.info("SUCCESS REMOVE FILE",success);
+                          izqMedia = $cordovaMedia.newMedia(izqSrc);
+                          $scope.recording = true;
+                          $scope.stopWatching();
+                          izqMedia.startRecord();
+                          $timeout(function(){
+                              izqMedia.stopRecord();
+                              $scope.recording = false;
+                              $scope.startWatching();
+                          },1500);
+                      }, function (error) {
+                          console.info("ERROR REMOVE FILE",error);
+                      });
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                    $scope.recording = true;
+                    $scope.stopWatching();
+                    izqMedia.startRecord();
+                    $timeout(function(){
+                        izqMedia.stopRecord();
+                        $scope.recording = false;
+                        $scope.startWatching();
+                    },1500);
+                  });
+
+                  
+                }
               //}, 500);
               break;
       }
@@ -178,10 +330,10 @@ $ionicPlatform.registerBackButtonAction(function (event) {
             // $scope.measurements.z = result.z;
 
 
-            if(result.z > 2){
+            if(result.z > 5){
               //BOCA ARRIBA (DEPENDE DE OTRA INCLINACION)
               $scope.measurements.z = 1;
-            }else if(result.z < -2){
+            }else if(result.z < -5){
               //BOCA ABAJO
               $scope.derClass = "fhm_img";
               $scope.izqClass = "fhm_img";
@@ -189,7 +341,13 @@ $ionicPlatform.registerBackButtonAction(function (event) {
               $scope.barClass = "fhm_img";
               $scope.babClass = "fhm_imgOn";
               if($scope.DeviceState != "BocaAbajo"){
-                babMedia.play();
+                $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName()+"/babSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    babMedia.play();
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                  });
               }
               $scope.DeviceState = "BocaAbajo";
               $scope.measurements.z = -1;
@@ -201,13 +359,19 @@ $ionicPlatform.registerBackButtonAction(function (event) {
               $scope.barClass = "fhm_img";
               $scope.babClass = "fhm_img";
               if($scope.DeviceState != "Parado"){
-                parMedia.play();
+                $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName()+"/parSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    parMedia.play();
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                  });
               }
               $scope.DeviceState = "Parado";
               $scope.measurements.z = 0;
             }
 
-            if(result.x > 2){
+            if(result.x > 4){
               if($scope.measurements.z == 1){
                 $scope.derClass = "fhm_img";
                 $scope.izqClass = "fhm_imgOn";
@@ -215,12 +379,19 @@ $ionicPlatform.registerBackButtonAction(function (event) {
                 $scope.barClass = "fhm_img";
                 $scope.babClass = "fhm_img";
                 if($scope.DeviceState != "Izquierda"){
-                  izqMedia.play();
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName()+"/izqSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    izqMedia.play();
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                  });
+                  
                 }
                 $scope.DeviceState = "Izquierda";
               }
               $scope.measurements.x = 1;
-            }else if(result.x < -2){
+            }else if(result.x < -4){
               if($scope.measurements.z == 1){
                 $scope.derClass = "fhm_imgOn";
                 $scope.izqClass = "fhm_img";
@@ -228,7 +399,13 @@ $ionicPlatform.registerBackButtonAction(function (event) {
                 $scope.barClass = "fhm_img";
                 $scope.babClass = "fhm_img";
                 if($scope.DeviceState != "Derecha"){
-                  derMedia.play();
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName()+"/derSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    derMedia.play();
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                  });
                 }
                 $scope.DeviceState = "Derecha";
               }
@@ -241,16 +418,22 @@ $ionicPlatform.registerBackButtonAction(function (event) {
                 $scope.barClass = "fhm_imgOn";
                 $scope.babClass = "fhm_img";
                 if($scope.DeviceState != "BocaArriba"){
-                  barMedia.play();
+                  $cordovaFile.checkFile(cordova.file.externalApplicationStorageDirectory, "files/"+UsuarioMovimiento.getName()+"/barSound.wav")
+                  .then(function (success) {
+                    console.info("SUCCESS CHECK FILE",success);
+                    barMedia.play();
+                  }, function (error) {
+                    console.info("ERROR CHECK FILE",error);
+                  });
                 }
                 $scope.DeviceState = "BocaArriba";
               }
               $scope.measurements.x = 0;
             }
 
-            if(result.y > 2){
+            if(result.y > 4){
               $scope.measurements.y = 1;
-            }else if(result.y < -2){
+            }else if(result.y < -4){
               $scope.measurements.y = -1;
             }else{
               $scope.measurements.y = 0;
